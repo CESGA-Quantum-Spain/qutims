@@ -22,7 +22,8 @@ The following packages are mandatory to be installed, in the indicated version o
 We recommend to have installed:
 
 [Dask 2024.5.0](https://docs.dask.org/en/stable/changelog.html#v2024-5-0) \
-[Matplotlib 3.5.2](https://matplotlib.org/3.5.3/users/index.html)
+[Matplotlib 3.5.2](https://matplotlib.org/3.5.3/users/index.html) \
+[PyTorch 2.0.1](https://pytorch.org/docs/2.0/)
 
 ## Installation
 For a correct installation of PennyLane, Dask and NumPy, we recommend to create a conda environment from the .yml file.
@@ -31,6 +32,9 @@ For a correct installation of PennyLane, Dask and NumPy, we recommend to create 
 
 For the installation of ``qutims`` library containing ``qurecnets`` module and subsequent modules, use ``pip``.
 > pip install qutims-0.2.tar.gz
+
+If needed, apart from those, the user can install the used ``PyTorch`` environment.
+> conda env create -n env_name -f mytorch.yml
 
 
 ## Content

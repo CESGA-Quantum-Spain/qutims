@@ -1,0 +1,2 @@
+jobID,cores,memory,CPU time,time,datfile,datdist seed,Npoints,Nwout,model,input_size,hidden_size,output_size,num_layers,Nparams,nT,optimizer,Nepochs,shuffle,LR,final epochs,epoch min VAL,RMSE tra,RMSE val,RMSE tes,RMSE ftes,R tra,R val,R tes,R ftes
+34514,8,187.50 MB,00:05:02,00:05:13,data_vdp_mu_2_del_15_ab_100_1000p.dat,1,1000,5,GRUModel,1,2,1,1,33,20,Adam,2000,True,0.001,2000,60,0.0883318816773992,0.1027910879967634,0.12277072668075562,0.08743369579315186,0.9684291925496759,0.9651200400330454,0.9375098357433894,0.9699615535297821

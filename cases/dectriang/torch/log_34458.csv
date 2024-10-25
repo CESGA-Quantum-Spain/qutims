@@ -1,0 +1,2 @@
+jobID,cores,memory,CPU time,time,datfile,datdist seed,Npoints,Nwout,model,input_size,hidden_size,output_size,num_layers,Nparams,nT,optimizer,Nepochs,shuffle,LR,final epochs,epoch min VAL,RMSE tra,RMSE val,RMSE tes,RMSE ftes,R tra,R val,R tes,R ftes
+34458,8,189.30 MB,00:05:00,00:05:05,data_dectriang_ab_100_1000p.dat,2,1000,5,GRUModel,1,2,1,1,33,20,Adam,2000,True,0.001,2000,1400,0.0124756636485632,0.0208647671977171,0.005469496827572584,0.007056213449686766,0.9974473890665819,0.9911015845461635,0.9953492660449718,0.9928193964303685

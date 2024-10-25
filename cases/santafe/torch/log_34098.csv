@@ -1,0 +1,2 @@
+jobID,cores,memory,CPU time,time,datfile,datdist seed,Npoints,Nwout,model,input_size,hidden_size,output_size,num_layers,Nparams,nT,optimizer,Nepochs,shuffle,LR,final epochs,epoch min VAL,RMSE tra,RMSE val,RMSE tes,RMSE ftes,R tra,R val,R tes,R ftes
+34098,8,193.45 MB,00:18:31,00:02:45,data_santafe1.dat,4,1980,5,LSTMModel,1,2,1,1,43,20,Adam,2000,True,0.001,2000,1934,0.0216828240764901,0.0258888115834735,0.04106275737285614,0.02701583318412304,0.9927951001187699,0.9899848896079593,0.9817596329990562,0.9917767335307202

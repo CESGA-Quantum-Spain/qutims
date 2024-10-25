@@ -1,0 +1,2 @@
+jobID,cores,memory,CPU time,time,datfile,datdist seed,Npoints,Nwout,model,input_size,hidden_size,output_size,num_layers,Nparams,nT,optimizer,Nepochs,shuffle,LR,RMSE tra,RMSE val,RMSE tes,RMSE ftes,R tra,R val,R tes,R ftes
+34138,8,189.67 MB,00:09:48,00:10:01,data_santafe5.dat,4,1980,5,GRUModel,1,2,1,1,33,20,Adam,2000,True,0.001,0.08651535958051682,0.11557448655366898,0.13544797897338867,0.11848166584968567,0.870768043991808,0.7619252429827558,0.7914225739036719,0.82893652985792

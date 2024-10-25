@@ -1,0 +1,2 @@
+jobID,cores,memory,CPU time,time,datfile,datdist seed,Npoints,Nwout,model,input_size,hidden_size,output_size,num_layers,Nparams,nT,optimizer,Nepochs,shuffle,LR,final epochs,epoch min VAL,RMSE tra,RMSE val,RMSE tes,RMSE ftes,R tra,R val,R tes,R ftes
+34510,8,189.37 MB,00:09:43,00:01:24,data_vdp_mu_2_del_15_ab_100_1000p.dat,1,1000,5,LSTMModel,1,2,1,1,43,20,Adam,2000,True,0.001,2000,1971,0.0797246374207358,0.0953174827901936,0.12571364641189575,0.08521459251642227,0.9745385670431126,0.9687118069110565,0.9342829339284114,0.9715646845295068

@@ -8,6 +8,11 @@ runpy.sh
 .param_*
 
 __pycache__/
+.ipynb_checkpoints/
+*.ipynb
+
+.dask/
+dask
 dask_cluster.py
 dask_submit_all.sh
 dask_submit_cluster.sh

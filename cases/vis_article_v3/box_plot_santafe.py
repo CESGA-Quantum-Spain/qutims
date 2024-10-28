@@ -3,7 +3,9 @@
 Created on 
 @author: jdviqueira
 
-Script for Santa Fe box plots and comparison with https://www.nature.com/articles/s41534-023-00682-z.
+Script for Santa Fe box plots and comparison with https://www.nature.com/articles/s41534-023-00682-z*.
+*Citation: [1] P. Mujal, R. Martínez-Peña, G. L. Giorgi, M. C. Soriano, and R. Zambrini, Time-series quantum 
+               reservoir computing with weak and projective measurements, npj Quantum Information 9, 16 (2023).
 """
 
 import sys
@@ -57,7 +59,7 @@ def myplot(axis,delay,qrc_data):
     
     axis.set_xticks(range(-1,5))
     axis.set_xlim(-1.5,4.5)
-    axis.set_xticklabels(labels=['QRC 0.3','QRC 10']+list(ALL_CORR2.keys()),rotation=30)
+    axis.set_xticklabels(labels=['QRC 10','QRC 0.3']+list(ALL_CORR2.keys()),rotation=40)
     axis.set_title('$t_d = %i$' %delay, ) #**title_format
 
     #axis.plot([0.],qrc_data[0], marker='o', markerfacecolor='black', markeredgecolor='black', markeredgewidth=0.1)
@@ -68,14 +70,19 @@ def myplot(axis,delay,qrc_data):
 
     return axis
 
+### Data from reference [1] Fig. 5 ###############
+#################delay: [value g=10, value g=0.3]
+external_data = {1:     [0.9578,     0.9320],
+                 5:     [0.7222,     0.6656],
+                 10:    [0.5370,     0.4866]}
+##################################################
 
-
-ax[0] = myplot(ax[0],1, [0.9578,0.9320])
+ax[0] = myplot(ax[0],1, external_data[1]) # 
 ax[0].set_yticks(np.arange(0.90,1.00,0.025))
 ax[0].set_ylabel('capacity')
-ax[1] = myplot(ax[1],5, [0.7222,0.6656])
+ax[1] = myplot(ax[1],5, external_data[5])
 ax[1].set_yticks(np.arange(0.60,0.90,0.05))
-ax[2] = myplot(ax[2],10, [0.5370,0.4866])
+ax[2] = myplot(ax[2],10, external_data[10])
 ax[2].set_yticks(np.arange(0.45,0.75,0.05))
 
 plt.subplots_adjust(wspace=0.3)

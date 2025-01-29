@@ -22,3 +22,7 @@ PreLoad.py
 wraper.sh
 scheduler_info*.json
 ssh_command*.txt
+
+
+main.cpp
+test

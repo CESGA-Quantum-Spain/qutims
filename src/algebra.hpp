@@ -1,21 +1,26 @@
 #pragma once
 //#include <armadillo> //No esta en los modulos del qmio
 #include <Eigen/Dense>
+//#include <unsupported/Eigen/CXX11/Tensor>
+#include <type_traits>
 
 
 
-template<typename T = double>
+
 class Vector{
     public:
-        Eigen::Matrix<T, Eigen::Dynamic, 1> vector;
+        Eigen::Matrix<std::complex<double>, Eigen::Dynamic, 1> vector;
 
-        Vector(int len) : vector(len)
+        Vector(int len) : vector{len}
         {}
 
-        double dot(Vector<T>& v)
+        Vector() : vector{1}
+        {}
+
+        std::complex<double> dot(Vector& v)
         {
-            double res;
-            res.vector = (this->vector).dot(v.vector);
+            std::complex<double> res;
+            res = (this->vector).dot(v.vector);
             return res;
         }
 
@@ -23,63 +28,88 @@ class Vector{
 
 
 
-template<typename T = double>
+
 class Matrix{
     public:
-        Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic> matrix;
+        Eigen::Matrix<std::complex<double>, Eigen::Dynamic, Eigen::Dynamic> matrix;
 
-        Matrix(int n_rows, int n_cols) : matrix(n_rows, n_cols) 
+        Matrix(int n_rows, int n_cols) : matrix{n_rows, n_cols} 
+        {}
+
+        Matrix() : matrix{1,1}
         {}
         
-        Matrix<T> operator+(const Matrix<T>& M) 
+        Matrix operator+(const Matrix& M) 
         {
-            Matrix<T> res(M.matrix.rows(), M.matrix.cols());
+            Matrix res(M.matrix.rows(), M.matrix.cols());
             res.matrix  = this->matrix + M.matrix;
             return res;
         }
 
-        Matrix<T> operator*(const Matrix<T>& M) 
+        Matrix operator*(const Matrix& M) 
         {
-            Matrix<T> res(this->matrix.rows(), M.matrix.cols());
+            Matrix res(this->matrix.rows(), M.matrix.cols());
             res.matrix = this->matrix * M.matrix;
             return res;
         }
 
-        Vector<T> operator*(const Vector<T>& V) 
+        Vector operator*(const Vector& V) 
         {
-            Vector<T> res(V.vector.rows());
+            Vector res(V.vector.rows());
             res.vector  = this->matrix * V.vector;
             return res;
         }
+
 };
 
+Matrix zeros(int& n_rows, int& n_cols)
+{
+    Matrix zr(n_rows, n_cols);
+    zr.matrix = Eigen::MatrixXd::Zero(n_rows, n_cols);
+    return zr;
+}
 
-template<typename T = double>
-Vector<T> vectorkroneckerProduct(const Vector<T>& v, const Vector<T>& w) {
+Vector vectorKroneckerProduct(const Vector& v, const Vector& w) {
     int m = v.vector.size();
     int n = w.vector.size();
 
     // Resultado será un vector de tamaño m * n
-    Vector<T> result(m * n);
+    Vector result(m * n);
 
     // Llenar el vector resultado
     for (int i = 0; i < m; ++i) {
         for (int j = 0; j < n; ++j) {
-            result(i * n + j) = v(i) * w(j);
+            result.vector(i * n + j) = v.vector(i) * w.vector(j);
         }
     }
 
     return result;
 }
 
-template<typename T = double>
-std::vector<Vector<T>> get_matrix_rows(Matrix<T>& M)
+
+Matrix matrixKroneckerProduct(Matrix& A, Matrix& B) {
+    int rowsA = A.matrix.rows(), colsA = A.matrix.cols();
+    int rowsB = B.matrix.rows(), colsB = B.matrix.cols();
+
+    Matrix result(rowsA * rowsB, colsA * colsB);
+
+    for (int i = 0; i < rowsA; i++) {
+        for (int j = 0; j < colsA; j++) {
+            result.matrix.block(i * rowsB, j * colsB, rowsB, colsB) = A.matrix(i, j) * B.matrix;
+        }
+    }
+
+    return result;
+}
+
+
+std::vector<Vector> get_matrix_rows(Matrix& M)
 {
-    int n_rows = probs.matrix.rows();
-    std::vector<Vector<T>> rows;
+    int n_rows = M.matrix.rows();
+    std::vector<Vector> rows;
     for (int i = 0; i < n_rows; i++){
         Vector v;
-        v.vector = probs.matrix.row(i);
+        v.vector = M.matrix.row(i);
         rows.push_back(v);
     }
 

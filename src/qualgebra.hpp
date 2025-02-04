@@ -9,7 +9,7 @@ const std::complex<double> im(0.0, 1.0);
 
 // ------- States -------
 
-Vector<> zero()
+Vector zero()
 {
     Vector v(2);
     v.vector(0) = 1.0;
@@ -18,7 +18,7 @@ Vector<> zero()
     return v;
 }
 
-Vector<> one()
+Vector one()
 {
     Vector v(2);
     v.vector(0) = 0.0;
@@ -27,7 +27,7 @@ Vector<> one()
     return v;
 }
 
-Vector<> plus()
+Vector plus()
 {
     Vector v(2);
     v.vector(0) = 1.0;
@@ -37,7 +37,7 @@ Vector<> plus()
     return v;
 }
 
-Vector<> minus()
+Vector minus()
 {
     Vector v(2);
     v.vector(0) = 1.0;
@@ -49,7 +49,7 @@ Vector<> minus()
 
 // ------- Matrices -------
 
-Matrix<> I()
+Matrix I()
 {
     Matrix M(2,2);
     M.matrix(0,0) = 1.0;
@@ -60,7 +60,7 @@ Matrix<> I()
     return M;
 }
 
-Matrix<> H()
+Matrix H()
 {
     Matrix M(2,2);
     M.matrix(0,0) = 1.0;
@@ -72,7 +72,7 @@ Matrix<> H()
     return M;
 }
 
-Matrix<> X()
+Matrix X()
 {
     Matrix M(2,2);
     M.matrix(0,0) = 0.0;
@@ -83,9 +83,9 @@ Matrix<> X()
     return M;
 }
 
-Matrix<std::complex<double>> Rx(double theta)
+Matrix Rx(double theta)
 {
-    Matrix<std::complex<double>> M(2,2);
+    Matrix M(2,2);
     M.matrix(0,0) = cos(theta/2.0);
     M.matrix(0,1) = std::complex<double>(0.0, sin(theta/2.0));
     M.matrix(1,0) = std::complex<double>(0.0, -sin(theta/2.0));
@@ -94,9 +94,9 @@ Matrix<std::complex<double>> Rx(double theta)
     return M;
 }
 
-Matrix<> Ry(double theta)
+Matrix Ry(double theta)
 {
-    Matrix<> M(2,2);
+    Matrix M(2,2);
     M.matrix(0,0) = cos(theta/2.0);
     M.matrix(0,1) = sin(theta/2.0);
     M.matrix(1,0) = -sin(theta/2.0);
@@ -106,9 +106,9 @@ Matrix<> Ry(double theta)
 
 }
 
-Matrix<std::complex<double>> Rz(double theta)
+Matrix Rz(double theta)
 {
-    Matrix<std::complex<double>> M(2,2);
+    Matrix M(2,2);
     M.matrix(0,0) = std::complex<double>(cos(theta/2.0), sin(theta/2.0));
     M.matrix(0,1) = 0.0;
     M.matrix(1,0) = 0.0;
@@ -117,9 +117,9 @@ Matrix<std::complex<double>> Rz(double theta)
     return M;
 }
 
-Matrix<std::complex<double>> U(double theta, double phi, double lambda)
+Matrix U(double theta, double phi, double lambda)
 {
-    Matrix<std::complex<double>> M(2,2);
+    Matrix M(2,2);
     M.matrix(0,0) = cos(theta/2.0);
     M.matrix(0,1) = std::complex<double>(cos(phi), sin(phi) * sin(theta/2.0));
     M.matrix(1,0) = std::complex<double>(0.0, sin(lambda) * sin(theta/2.0));
@@ -129,10 +129,35 @@ Matrix<std::complex<double>> U(double theta, double phi, double lambda)
 }
 
 
-Matrix<std::complex<double>> hermitian(Matrix<std::complex<double>> M)
+Matrix U2(std::vector<double>& sub_thetas)
 {
-    Matrix<std::complex<double>> aM(M.matrix.cols(), M.matrix.rows());
+    Matrix res = Rx(sub_thetas[0])*Rz(sub_thetas[1]);
+    return res;
+}
+
+
+
+Matrix U3(std::vector<double>& sub_thetas)
+{
+    return Rx(sub_thetas[2])*Rz(sub_thetas[1])*Rx(sub_thetas[0]);
+}
+
+
+Matrix hermitian(Matrix& M)
+{
+    Matrix aM(M.matrix.cols(), M.matrix.rows());
 
     aM.matrix = aM.matrix.adjoint();
     return aM;
+}
+
+Matrix Identity(int& n)
+{
+    Matrix In(n, n);
+
+    for (int i = 0; i < n; i++) {
+        In.matrix(i,i) = 1.0;
+    }
+
+    return In;
 }

@@ -109,8 +109,8 @@ qrnn = EMCZ2(nT,nE,nM,nL,nx, shots=nshots)
 # TRAINING PREDICTIONS
 train_outputs = []
 for train_sample in train_sequences:
-    evalu = qrnn.evaluate(params[1:], train_sample)
-    ypredi = np.array([params[0]]*len(evalu)) + evalu
+    evalu = qrnn.evaluate(params[1:], train_sample) 
+    ypredi = np.array([params[0]]*len(evalu)) + evalu 
     train_outputs += [ypredi[-Nwout:]]
 train_outputs = np.array(train_outputs)
 train_rmse = rmse(train_outputs.flatten(),train_targets.flatten())

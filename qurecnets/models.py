@@ -12,7 +12,8 @@ This program is free software: you can redistribute it and/or modify it under th
 """
 
 import numpy as np
-from qurecnets.qualgebra import Rx,Ry,Rz
+#from qurecnets.qualgebra import Rx,Ry,Rz
+from qualgebra import Rx,Ry,Rz
 
 
 class base:
@@ -50,26 +51,38 @@ class CZladder2p1(base):
             # 2-parameter rotation operator
             Uo = Rz(sub_thetas[1])@Rx(sub_thetas[0])
             return Uo
+
+        print("###### Empieza la fiesta #######")
         
         preindex = self.encode_Nparams() # number of parameters used in encoding
-
+        print("###### Seguimos 1 #######")
         base = [[1,1],[1,-1]]
         csign = [1,1]
         for k in range(self.nE+self.nM-1):
-            csign = [base[i%2][j]*item for i,item in enumerate(csign) for j in range(2)]
+            csign = [base[i%2][j]*csign[i] for i in range(len(csign)) for j in range(2)]
         csign = np.array(csign)
+        print("###### Seguimos 2 #######")
 
         
         # // Create operator to apply over all qubits as first layer
         Uab  = np.array([[1]])
         for i in range(self.nE):
             Uab = np.kron(Uab,U2(theta[preindex+2*i:preindex+2*i+2])) # acts on reg. A
+        print("###### Seguimos 3 #######")
         for i in range(self.nE,self.nE+self.nM):
             Uab = np.kron(Uab,U2(theta[preindex+2*i:preindex+2*i+2])) # acts on reg. B
+        print("###### Seguimos 4 #######")
         Uabcx = []
         for csigni,row in zip(csign,Uab):
             Uabcx += [csigni*row]
+        print("###### Seguimos 5 #######")
+        print("###### ¿Qué es Uabcx? {} #######".format(type(Uabcx)))
+        print("###### ¿Qué longitud tiene Uabcx? {} #######".format(len(Uabcx)))
+        print("###### Primer elemento de la lista {} #######".format(Uabcx[0].shape))
         Ut = np.array(Uabcx)
+        print("###### ¿Qué es Ut? {} #######".format(type(Ut)))
+        print("###### ¿Qué dimension tiene Ut? {} #######".format(Ut.shape))
+
         
         
         # // Loop to apply full operator as many times as nlayers. Parameters are different for each
@@ -78,12 +91,16 @@ class CZladder2p1(base):
             Uab  = np.array([[1]])
             for i in range(self.nE):
                 Uab = np.kron(Uab,U2(theta[preindex+2*(self.nE+self.nM)*li+2*i:preindex+2*(self.nE+self.nM)*li+2*i+2])) # acts on reg. A
+            print("###### Seguimos 6 #######")
             for i in range(self.nE,self.nE+self.nM):
                 Uab = np.kron(Uab,U2(theta[preindex+2*(self.nE+self.nM)*li+2*i:preindex+2*(self.nE+self.nM)*li+2*i+2])) # acts on reg. B
+            print("###### Seguimos 7 #######")
             Uabcx = []
             for csigni,row in zip(csign,Uab):
                 Uabcx += [csigni*row]
+            print("###### Seguimos 8 #######")
             Ut = np.dot(Uabcx, Ut)
+        
         # //
         
         
@@ -93,10 +110,13 @@ class CZladder2p1(base):
         findex = preindex+2*(self.nE+self.nM)*self.nL
         for i in range(self.nE):
             Ua = np.kron(Ua,Rx(theta[findex+i])) # A operator in {|0>,|1>} basis, i.e. final rotation over regA
+        print("###### Seguimos 8 #######")
         Uf  = np.kron(Ua,InB) # Final operator in {|0>,|1>} basis,i.e. final 3-rotation over regA
         # //
         
         Ut  = np.dot(Uf,Ut) # !!! MASTER OPERATOR
+
+        print("###### SE TERMINA #######")
         
         return np.array([[Ut[self.NM*i:self.NM*(i+1),self.NM*j:self.NM*(j+1)] for i in range(self.NE)] for j in range(self.NE)]) # U divided!
 
@@ -109,6 +129,14 @@ class CZladder2p1(base):
             int
         """
         return 2*(self.nE+self.nM)*self.nL + self.nE
+
+    def encode_Nparams(self):
+        """Number of parameters used in this encoding.
+
+        Returns:
+            int
+        """
+        return 2*self.nE*self.nx
 
 
 
@@ -198,7 +226,7 @@ class encodeP2(base):
         This class must be inherited by or with emc.emulator class.
 
         Args:
-            xt (numpy.array): x_(t) data. 2-rank tensor with shape (nT,nE)
+            xt (numpy.array): x_(t) data. 1-rank tensor with shape (nE)
             theta (array): Trainable parameters (all). Order: parameters fill the groups in order, and then by columns acting on different qubits. Finally, layers of data re-uploading.
 
         Returns
@@ -240,7 +268,7 @@ class encodeP3(base):
         This class must be inherited by or with emc.emulator class.
 
         Args:
-            xt (numpy.array): x_(t) data. 2-rank tensor with shape (nT,nE)
+            xt (numpy.array): x_(t) data. 1-rank tensor with shape (nE)
             theta (array): Trainable parameters (all). Order: parameters fill the groups in order, and then by columns acting on different qubits. Finally, layers of data re-uploading.
 
         Returns
@@ -272,3 +300,17 @@ class encodeP3(base):
             int
         """
         return 3*self.nE*self.nx
+
+
+
+
+if __name__ == "__main__":
+
+
+    ladder = CZladder2p1(nT = 2,nE = 2,nM = 2,nL = 2,nx = 2)
+
+    ladder.evolve(theta = [i for i in range(30)])
+
+
+
+

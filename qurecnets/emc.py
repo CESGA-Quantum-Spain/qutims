@@ -13,11 +13,11 @@ This program is free software: you can redistribute it and/or modify it under th
 
 import numpy as np
 
-from qurecnets.qualgebra import Rx,Ry,Rz
+from qualgebra import Rx,Ry,Rz
 
-from qurecnets.models import CZme3, CZladder2p1, encodeP3, encodeP2
-from qurecnets.loss_fs import mse
-from qurecnets.readout import expectZ
+from models import CZme3, CZladder2p1, encodeP3, encodeP2
+from loss_fs import mse
+from readout import expectZ
 
 
 class emulator:
